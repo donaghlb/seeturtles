@@ -1,0 +1,25 @@
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/SeeTurtles.ap_ \
+ : /Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/drawable/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/drawable-hdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/drawable-ldpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/drawable-mdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/drawable-xhdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/values/strings.xml \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/res/xml/config.xml \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/res/drawable/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/res/drawable-hdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/res/drawable-ldpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/res/drawable-mdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/res/drawable-xhdpi/icon.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/_where-is-www.txt \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/cordova.js \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/cordova_plugins.js \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/css \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/img \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/index.html \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/js \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/css/index.css \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/img/logo.png \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/assets/www/js/index.js \
+/Users/laurendonaghue/documents/development/seeturtles/app/platforms/android/ant-build/AndroidManifest.xml \
