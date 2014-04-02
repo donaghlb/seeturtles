@@ -14,215 +14,183 @@
             <div data-role="header">
                 <h1>See Turtles!</h1>
             </div>
-        <div 
-            <p>Save the Sea Turtles! <a href="#track" data-role="button" data-transition="flip">Track a Turtle</a></p>
-            </div>
-        <div 
-             <p><a href="#plot" data-role="button" data-transition="flip">Plot a New Nesting Site</a></p>
-            </div>
-        <div
-            <p><a href="#document" data-role="button" data-transition="flip">Document an Injured or Deceased Turtle</a></p>
-            </div>
-        <div 
-            <p><a href="#conservation" data-role="button" data-transition="flip">Possible Conservation Methods</a></p>
-            </div>
-        <div 
-            <p><a href="#data" data-role="button" data-transition="flip">Data Analysis</a></p>
-            </div>
+
+			<div data-role="content" class="ui-content">
+	            <p>Save the Sea Turtles! <a href="#track" data-role="button" data-transition="flip">Track a Turtle</a></p>
+	            <p><a href="#nests" data-role="button" data-transition="flip">Nests</a></p>
+	            <p><a href="#document" data-role="button" data-transition="flip">Document an Injured or Deceased Turtle</a></p> 
+	            <p><a href="#conservation" data-role="button" data-transition="flip">Possible Conservation Methods</a></p>
+	            <p><a href="#data" data-role="button" data-transition="flip">Data Analysis</a></p>
+			</div>
 
             <div data-role="footer" data-position="fixed">
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
             </div>
-<form>
-    </div>
-       <div data-role="page" id="track">
-            <div data-role="header">
-                <h1>Search See Turtles!</h1>
-            </div>
-            <div 
-                <p>Hi! I'm looking for a turtle. <a href="#home" data-role="button" data-theme="b">go home</a></p>
-         </div>
-             <label for="text-1">Latitude:</label>
-             <input type="text" name="text-1" id="text-1" value="">
-             <label for="text-2">Longitude:</label>
-             <input type="text" data-clear-btn="true" name="text-2" id="text-2" value"">
-             <label for="text-3">Gender:</label>
-             <input type="text" data-clear-btn="true" name="text-3" id="text-3" value"">
-             <label for="text-4">Age:</label>
-             <input type="text" data-clear-btn="true" name="text-4" id="text-4" value"">
-             <label for="text-4">Tracking Number/Name:</label>
-             <input type="text" data-clear-btn="true" name="text-4" id="text-4" value"">
+		</div>
 
- </form>
-<form>
-    </div>
-       <div data-role="page" id="plot">
+        <div data-role="page" id="nests">
             <div data-role="header">
-                <h1>Plot a New Site</h1>
+                <h1>Turtle Nests</h1>
             </div>
-            <div 
-                <p>Enter Coordinates <a href="#home" data-role="button" data-theme="b">go home</a></p>
-            </div>
-            
-             <label for="text-1">Latitude:</label>
-             <input type="text" name="text-1" id="text-1" value="">
-             <label for="text-2">Longitude:</label>
-             <input type="text" data-clear-btn="true" name="text-2" id="text-2" value"">
-             <label for="text-3">Nest Temperature:</label>
-             <input type="text" name="text-3" id="text-3" value="">
-             <label for="text-4">Expected Genders:</label>
-             <input type="text" data-clear-btn="true" name="text-4" id="text-4" value"">
-             <label for="text-5">Predicted Delivery Date:</label>
-             <input type="text" data-clear-btn="true" name="text-5" id="text-5" value"">
-             <label for="text-6">Date Discovered:</label>
-             <input type="text" data-clear-btn="true" name="text-6" id="text-6" value"">
-             <label for="text-7">Nest Conditions:</label>
-             <input type="text" data-clear-btn="true" name="text-7" id="text-7" value"">
 
-     
-</form>
-<form>
-    </div>
+			<div data-role="content" class="ui-content">
+				<p><a href="#plot" data-role="button" data-icon="plus">Add a new nest</a></p>
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+
+        <div data-role="page" id="track">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+				<form>
+		             <label for="lat">Latitude:</label><input type="text" name="lat" id="lat">
+		             <label for="lon">Longitude:</label><input type="text" name="lon" id="lon">
+		             <label for="gender">Gender:</label><input type="text" name="gender" id="gender">
+		             <label for="age">Age:</label><input type="text" name="age" id="age">
+		             <label for="tnum">Tracking Number/Name:</label><input type="text" name="tnum" id="tnum">
+				</form>
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+		<div data-role="page" id="plot">
+			<div data-role="header">
+				<h1>See Turtles!</h1>
+			</div>
+
+			<div data-role="content" class="ui-content">
+				<form>
+					<label for="name">Name:</label><input type="text" name="name" id="name">
+					<label for="lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
+					<label for="lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
+					<label for="disc">Discovered:</label><input type="date" name="date_discovery" id="disc">
+					<label for="pred">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
+					<label for="act">Actual:</label><input type="date" name="actual_delivery" id="act">
+					<a href="#" id="plot_submit" data-role="button">Submit</a>
+				</form>
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<p>&copy; 2014 Lauren &amp; Shaina</p>
+			</div>
+		</div>
+		
         <div data-role="page" id="document">
             <div data-role="header">
-                <h1>Injured/Deaceased?</h1>
-            </div>
-                <div data-role="content">
-                    <p>Enter Information <a href="#home" data-role="button" data-theme="b">go home</a></p>
-            </div>
-             <label for="text-1">Number of Injured Turtles This Year:</label>
-             <input type="text" name="text-1" id="text-1" value="">
-             <label for="text-2">Number of Deceased Turtles This Year:</label>
-             <input type="text" data-clear-btn="true" name="text-2" id="text-2" value"">
-             <label for="text-3">Reasons For Injury or Death:</label>
-             <input type="text" name="text-3" id="text-3" value="">
-         <div
-            <p><a href="#report" data-role="button" data-transition="flip">Click to Report Recent Injury or Death</a></p>
-        </div>
- </form>
- <form>
-    </div>
-         <div data-role="page" id="report">
-            <div data-role="header">
-            <h1>Report Injury/Death</h1>
-        </div>
-        <div data-role="button">
-            <p>Data <a href="#document" data-role="button" data-theme="b">go back</a></p>
-        </div>
-        <div>
-             <label for="text-1">Date Found:</label>
-             <input type="text" name="text-1" id="text-1" value="">
-             <label for="text-2">Description of Injury:</label>
-             <input type="text" data-clear-btn="true" name="text-2" id="text-2" value"">
-             <label for="text-3">Cause or Suspected Cause:</label>
-             <input type="text" name="text-3" id="text-3" value="">
-             <label for="text-4">Age:</label>
-             <input type="text" name="text-4" id="text-4" value="">
-             <label for="text-5">Species:</label>
-             <input type="text" data-clear-btn="true" name="text-5" id="text-5" value"">
-             <label for="text-6">Gender:</label>
-             <input type="text" name="text-6" id="text-6" value="">
-             <label for="text-6">Tagged or Untagged:</label>
-             <input type="text" name="text-6" id="text-6" value="">
-         </div>
-
-
-<form>
-    </div>
-        <div data-role="page" id="conservation">
-            <div data-role="header">
-                <h1>Conservation</h1>
-            </div>
-            <div 
-                <p>How Can You Make A Difference? <a href="#home" data-role="button" data-theme="b">go home</a></p>
-            </div>
-            <div 
-                <p><a href="#international" data-role="button" data-transition="flip">International Agreements</a></p>
-            </div>
-            <div 
-                <p><a href="#state" data-role="button" data-transition="flip">State and Local Regulations</a></p>
-            </div>
-            <div 
-                <p><a href="#national" data-role="button" data-transition="flip">National Laws</a></p>
-            </div>
-            <div 
-                <p><a href="#education" data-role="button" data-transition="flip">Education</a></p>
-            </div>
-     </div>
-           
-<form>
-    </div>
-        <div data-role="page" id="international">
-            <div data-role="header">
-                <h1>Int Agreements</h1>
-            </div>
-                <div data-role="content">
-                    <p>Enter Information <a href="#conservation" data-role="button" data-theme="b">go back</a></p>
-                </div>
-    </div>
-        <div data-role="page" id="state">
-            <div data-role="header">
-                <h1>State and Local</h1>
-            </div>
-                <div data-role="content">
-                    <p>Enter Information <a href="#conservation" data-role="button" data-theme="b">go back</a></p>
-                </div>
-    </div>
-        <div data-role="page" id="national">
-            <div data-role="header">
-                <h1>Int Agreements</h1>
-            </div>
-                <div data-role="content">
-                    <p>Enter Information <a href="#conservation" data-role="button" data-theme="b">go back</a></p>
-                </div>
-    </div>
-        <div data-role="page" id="education">
-            <div data-role="header">
-                <h1>Int Agreements</h1>
-            </div>
-                <div data-role="content">
-                    <p>Enter Information <a href="#conservation" data-role="button" data-theme="b">go back</a></p>
-                </div>
-
-    </div>
-        <div data-role="page" id="data">
-            <div data-role="header">
-                <h1>Data Analysis</h1>
-            </div>
-            <div 
-                <p>Data <a href="#home" data-role="button" data-theme="b">go home</a></p>
+                <h1>See Turtles!</h1>
             </div>
 
+			<div data-role="content" class="ui-content">
+			</div>
 
             <div data-role="footer" data-position="fixed">
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
             </div>
-        </div>
-<!--
-<div data-role="navbar">
-    <ul>
-        <li><a href="#" class="ui-btn-active">Track a Turtle</a></li>
+		</div>
+		
+        <div data-role="page" id="report">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
 
-        <li><a href="#">Log in a New Turtle</a></li>
-        <li><a href="#">Plot a New Nesting Site</a></li>
-        <li><a href="#">Document and Injured or Deceased Turtle</a></li>
-        <li><a href="#">Possible Conservation Methods</a></li>
-        <li><a href="#">Data Alanalysis</a></li>
+			<div data-role="content" class="ui-content">
+			</div>
 
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="conservation">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
 
-</body>
-</html>
-    </ul>
-</div><!-- /navbar -->
+			<div data-role="content" class="ui-content">
+			</div>
 
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="international">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="state">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="national">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="education">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
+        <div data-role="page" id="data">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+		
         <!--<script type="text/javascript" src="cordova.js"></script>-->
         <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="js/index.js"></script>
         <script src="js/jquery.mobile-1.4.2.min.js"></script>
-        <script src="js/index.js"><script>
-        <form>
-     
-</form>
     </body>
-
-</body>
 </html>
