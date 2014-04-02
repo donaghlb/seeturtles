@@ -64,6 +64,12 @@ stdb.getNests = function( successHandler ) {
 	});
 };
 
+stdb.getNest = function( id, successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM nests WHERE id = ?', [ id ], successHandler, stdb.onError );
+	});
+};
+
 // create functions for updating data
 stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
@@ -78,7 +84,14 @@ stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) 
 // create functions for deleting data
 stdb.deleteNest = function( id ) {
 	stdb.db.transaction( function( tx ) {
+		// first get rid of the nest
 		tx.executeSql( 'DELETE FROM nests WHERE id = ?',
+			[ id ],
+			null,
+			stdb.onError
+		);
+		// next get rid of any associated observations
+		tx.executeSql( 'DELETE FROM observations WHERE nest_id = ?',
 			[ id ],
 			stdb.onSuccess,
 			stdb.onError
