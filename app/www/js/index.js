@@ -89,11 +89,17 @@ stdb.getNests = function( successHandler ) {
 		tx.executeSql( 'SELECT * FROM nests', [], successHandler, stdb.onError );
 	});
 };
+<<<<<<< HEAD
 stdb.getNests = function( successHandler ) {
+=======
+
+stdb.getNest = function( id, successHandler ) {
+>>>>>>> 1f3e74f5c0128491d4faab7b79377b811be6b3d4
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'SELECT * FROM nests WHERE id = ?', [ id ], successHandler, stdb.onError );
 	});
 };
+<<<<<<< HEAD
 stdb.getObservation = function( successHandler ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'SELECT * FROM observations', [], successHandler, stdb.onError );
@@ -134,6 +140,9 @@ stdb.getSitings = function( successHandler ) {
 		tx.executeSql( 'SELECT * FROM sitings WHERE id = ', [ id ], successHandler, stdb.onError );
 	});
 };
+=======
+
+>>>>>>> 1f3e74f5c0128491d4faab7b79377b811be6b3d4
 // create functions for updating data
 stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
@@ -183,13 +192,18 @@ stdb.updateSitings = function( turtle_id, condition, is_injured, sited_on, lat, 
 // create functions for deleting data
 stdb.deleteNest = function( id ) {
 	stdb.db.transaction( function( tx ) {
+<<<<<<< HEAD
 		//first get rid of the nest
+=======
+		// first get rid of the nest
+>>>>>>> 1f3e74f5c0128491d4faab7b79377b811be6b3d4
 		tx.executeSql( 'DELETE FROM nests WHERE id = ?',
 			[ id ],
 			null,
 			stdb.onError
 		);
 		// next get rid of any associated observations
+<<<<<<< HEAD
 		tx.executeSql( 'DELETE FROM observations WHERE nest_id = ?')
 			[ id ]
 			stdb.onSuccess
@@ -210,6 +224,11 @@ stdb.deleteNest = function( id ) {
 		tx.executeSql( 'DELETE FROM sitings WHERE turtle_id = ?')
 			[ id ]
 			stdb.onSuccess
+=======
+		tx.executeSql( 'DELETE FROM observations WHERE nest_id = ?',
+			[ id ],
+			stdb.onSuccess,
+>>>>>>> 1f3e74f5c0128491d4faab7b79377b811be6b3d4
 			stdb.onError
 		);
 	});
