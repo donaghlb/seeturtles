@@ -56,14 +56,84 @@ stdb.addObservation = function( nest_id, osbserved, temp, cond ) {
 		);
 	});
 };
-
+stdb.addSpecies = function( name, description ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'INSERT INTO species ( name, description ) VALUES ( ?, ? )',
+			[ name, description ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
+stdb.addTurtles = function( id, dob, gender, species_id, birth_lat, birth_lon, deceased ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'INSERT INTO species ( id, dob, gender, species_id, birth_lat, birth_lon, deceased ) VALUES ( ?, ?, ?, ?, ?, ? )',
+			[ id, dob, gender, species_id, birth_lat, birth_lon, deceased ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
+stdb.addSitings = function( turtle_id, condition, is_injured, sited_on, lat, lon ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'INSERT INTO species ( turtle_id, condition, is_injured, sited_on, lat, lon ) VALUES ( ?, ?, ?, ?, ?, ? )',
+			[ turtle_id, condition, is_injured, sited_on, lat, lon ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
 // create functions for getting data from the tables
 stdb.getNests = function( successHandler ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'SELECT * FROM nests', [], successHandler, stdb.onError );
 	});
 };
-
+stdb.getNests = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM nests WHERE id = ?', [ id ], successHandler, stdb.onError );
+	});
+};
+stdb.getObservation = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM observations', [], successHandler, stdb.onError );
+	});
+};
+stdb.getObservation = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM observations WHERE id = ?', [ id ], successHandler, stdb.onError );
+	});
+};
+stdb.getSpecies = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM species', [], successHandler, stdb.onError );
+	});
+};
+stdb.getSpecies = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM species WHERE id = ', [ id ], successHandler, stdb.onError );
+	});
+};
+stdb.getTurtles = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM turtles', [], successHandler, stdb.onError );
+	});
+};
+stdb.getTurtles = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM turtles WHERE id = ', [ id ], successHandler, stdb.onError );
+	});
+};
+stdb.getSitings = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM sitings', [], successHandler, stdb.onError );
+	});
+};
+stdb.getSitings = function( successHandler ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'SELECT * FROM sitings WHERE id = ', [ id ], successHandler, stdb.onError );
+	});
+};
 // create functions for updating data
 stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
@@ -74,18 +144,76 @@ stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) 
 		);
 	});
 };
-
-// create functions for deleting data
-stdb.deleteNest = function( id ) {
+stdb.updateObservation = function( nest_id, osbserved, temp, cond ) {
 	stdb.db.transaction( function( tx ) {
-		tx.executeSql( 'DELETE FROM nests WHERE id = ?',
-			[ id ],
+		tx.executeSql( 'UPDATE nests SET nest_id = ?, observed_on = ?, temperature = ?, condition = ? WHERE id = ?',
+			[ nest_id, osbserved, temp, cond ],
 			stdb.onSuccess,
 			stdb.onError
 		);
 	});
 };
-
+stdb.updateSpecies = function( name, description ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'UPDATE nests SET name = ?, description = ? WHERE id = ?',
+			[ name, description ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
+stdb.updateTurtles = function( id, dob, gender, species_id, birth_lat, birth_lon, deceased ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'UPDATE nests SET id = ?, dob = ?, gender = ?, species_id = ?, birth_lat = ?, birth_lon = ?, deceased = ? WHERE id = ?',
+			[ id, dob, species_id, birth_lat, birth_lon, deceased ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
+stdb.updateSitings = function( turtle_id, condition, is_injured, sited_on, lat, lon ) {
+	stdb.db.transaction( function( tx ) {
+		tx.executeSql( 'UPDATE nests SET turtle_id = ?, condition = ?, is_injured = ?, sited_on = ?, lat = ?, lon = ? WHERE id = ?',
+			[ turtle_id, condition, is_injured, sited_on, lat, lon ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+	});
+};
+// create functions for deleting data
+stdb.deleteNest = function( id ) {
+	stdb.db.transaction( function( tx ) {
+		//first get rid of the nest
+		tx.executeSql( 'DELETE FROM nests WHERE id = ?',
+			[ id ],
+			null,
+			stdb.onError
+		);
+		// next get rid of any associated observations
+		tx.executeSql( 'DELETE FROM observations WHERE nest_id = ?')
+			[ id ]
+			stdb.onSuccess
+			stdb.onError
+		);
+		// next get rid of any associated species 
+		tx.executeSql( 'DELETE FROM species WHERE name = ?')
+			[ id ]
+			stdb.onSuccess
+			stdb.onError
+		);
+		// next get rid of any associated turtles
+		tx.executeSql( 'DELETE FROM turtles WHERE id = ?')
+			[ id ]
+			stdb.onSuccess
+			stdb.onError
+		);
+		tx.executeSql( 'DELETE FROM sitings WHERE turtle_id = ?')
+			[ id ]
+			stdb.onSuccess
+			stdb.onError
+		);
+	});
+};
 // initialize the app
 $( document ).on( 'mobileinit', function() {
 	
@@ -104,7 +232,15 @@ $( document ).ready( function() {
 		if ( rs.rows.length > 0 ) {
 			nestlist  = '<ul data-role="listview" data-inset="true">';
 			for ( i = 0; i < rs.rows.length; i++ ) {
-				nestlist += '<li><a href="#nest?id=' + rs.rows.item(i).id + '">' + rs.rows.item(i).name + '</a></li>';
+				nestlist += '<li style="position:relative;">'
+				nestlist += rs.rows.item(i).name;
+				nestlist += '<span style="position:absolute;right:4px;top:-3px;" data-role="controlgroup" data-type="horizontal" data-mini="true">';
+				nestlist += '<a href="#nest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-eye ui-btn-icon-notex ui-corner-all">Edit</a>';
+				nestlist += '<a href="#editnest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-edit ui-btn-icon-notex ui-corner-all">Edit</a>';
+				nestlist += '<a href="#deletenest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-delete ui-btn-icon-notex ui-corner-all">Edit</a>;
+				nestlist += '</span>';
+				nestlist += '</li>';
+	
 			}
 			nestlist += '</ul>';
 			$( '#nests div[data-role="content"]' ).prepend( nestlist ).trigger( 'create' );

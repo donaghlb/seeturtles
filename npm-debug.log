@@ -1,0 +1,161 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-', 'g', 'cordova' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 verbose cache add [ '-', null ]
+5 verbose cache add name=undefined spec="-" args=["-",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: '-',
+6 verbose parsed url   path: '-',
+6 verbose parsed url   href: '-' }
+7 verbose cache add [ 'g', null ]
+8 verbose cache add name=undefined spec="g" args=["g",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'g',
+9 verbose parsed url   path: 'g',
+9 verbose parsed url   href: 'g' }
+10 verbose cache add [ 'cordova', null ]
+11 verbose cache add name=undefined spec="cordova" args=["cordova",null]
+12 verbose parsed url { protocol: null,
+12 verbose parsed url   slashes: null,
+12 verbose parsed url   auth: null,
+12 verbose parsed url   host: null,
+12 verbose parsed url   port: null,
+12 verbose parsed url   hostname: null,
+12 verbose parsed url   hash: null,
+12 verbose parsed url   search: null,
+12 verbose parsed url   query: null,
+12 verbose parsed url   pathname: 'cordova',
+12 verbose parsed url   path: 'cordova',
+12 verbose parsed url   href: 'cordova' }
+13 silly lockFile 3bc15c8a- -
+14 verbose lock - /Users/shainahyman/.npm/3bc15c8a-.lock
+15 silly lockFile 54fd1711-g g
+16 verbose lock g /Users/shainahyman/.npm/54fd1711-g.lock
+17 silly lockFile a98f2055-cordova cordova
+18 verbose lock cordova /Users/shainahyman/.npm/a98f2055-cordova.lock
+19 silly lockFile 3bc15c8a- -
+20 silly lockFile 3bc15c8a- -
+21 silly lockFile 54fd1711-g g
+22 silly lockFile 54fd1711-g g
+23 silly lockFile a98f2055-cordova cordova
+24 silly lockFile a98f2055-cordova cordova
+25 verbose addNamed [ '-', '' ]
+26 verbose addNamed [ null, '*' ]
+27 silly lockFile c75fe0d4- -@
+28 verbose lock -@ /Users/shainahyman/.npm/c75fe0d4-.lock
+29 verbose addNamed [ 'g', '' ]
+30 verbose addNamed [ null, '*' ]
+31 silly lockFile 8b047e1f-g g@
+32 verbose lock g@ /Users/shainahyman/.npm/8b047e1f-g.lock
+33 verbose addNamed [ 'cordova', '' ]
+34 verbose addNamed [ null, '*' ]
+35 silly lockFile de8d9fad-cordova cordova@
+36 verbose lock cordova@ /Users/shainahyman/.npm/de8d9fad-cordova.lock
+37 silly addNameRange { name: '-', range: '*', hasData: false }
+38 silly addNameRange { name: 'g', range: '*', hasData: false }
+39 silly addNameRange { name: 'cordova', range: '*', hasData: false }
+40 verbose url raw -
+41 verbose url resolving [ 'https://registry.npmjs.org/', './-' ]
+42 verbose url resolved https://registry.npmjs.org/-
+43 info trying registry request attempt 1 at 20:46:34
+44 http GET https://registry.npmjs.org/-
+45 verbose url raw g
+46 verbose url resolving [ 'https://registry.npmjs.org/', './g' ]
+47 verbose url resolved https://registry.npmjs.org/g
+48 info trying registry request attempt 1 at 20:46:35
+49 verbose etag "BIA4TIV0XPNVINZBN0Y4VQ3UA"
+50 http GET https://registry.npmjs.org/g
+51 verbose url raw cordova
+52 verbose url resolving [ 'https://registry.npmjs.org/', './cordova' ]
+53 verbose url resolved https://registry.npmjs.org/cordova
+54 info trying registry request attempt 1 at 20:46:35
+55 verbose etag "2LU6UGEPV4858VB12NPUF6R0W"
+56 http GET https://registry.npmjs.org/cordova
+57 http 304 https://registry.npmjs.org/g
+58 silly registry.get cb [ 304,
+58 silly registry.get   { date: 'Tue, 25 Mar 2014 00:46:35 GMT',
+58 silly registry.get     server: 'Apache',
+58 silly registry.get     via: '1.1 varnish',
+58 silly registry.get     'last-modified': 'Tue, 25 Mar 2014 00:46:35 GMT',
+58 silly registry.get     'cache-control': 'max-age=1',
+58 silly registry.get     etag: '"BIA4TIV0XPNVINZBN0Y4VQ3UA"',
+58 silly registry.get     'x-served-by': 'cache-at50-ATL',
+58 silly registry.get     'x-cache': 'MISS',
+58 silly registry.get     'x-cache-hits': '0',
+58 silly registry.get     'x-timer': 'S1395708395.607941389,VS0,VE118',
+58 silly registry.get     vary: 'Accept',
+58 silly registry.get     'content-length': '0',
+58 silly registry.get     'keep-alive': 'timeout=10, max=50',
+58 silly registry.get     connection: 'Keep-Alive' } ]
+59 verbose etag g from cache
+60 http 404 https://registry.npmjs.org/-
+61 silly registry.get cb [ 404,
+61 silly registry.get   { date: 'Tue, 25 Mar 2014 00:46:35 GMT',
+61 silly registry.get     server: 'CouchDB/1.5.0 (Erlang OTP/R14B04)',
+61 silly registry.get     'content-type': 'application/json',
+61 silly registry.get     via: '1.1 varnish',
+61 silly registry.get     'cache-control': 'max-age=0',
+61 silly registry.get     'content-length': '52',
+61 silly registry.get     'accept-ranges': 'bytes',
+61 silly registry.get     age: '0',
+61 silly registry.get     'x-served-by': 'cache-v41-ASH, cache-at51-ATL',
+61 silly registry.get     'x-cache': 'MISS, MISS',
+61 silly registry.get     'x-cache-hits': '0, 0',
+61 silly registry.get     'x-timer': 'S1395708395.608610630,VS0,VS-590,VE-485,VE118',
+61 silly registry.get     'keep-alive': 'timeout=10, max=50',
+61 silly registry.get     connection: 'Keep-Alive' } ]
+62 silly lockFile c75fe0d4- -@
+63 silly lockFile c75fe0d4- -@
+64 http 304 https://registry.npmjs.org/cordova
+65 silly registry.get cb [ 304,
+65 silly registry.get   { date: 'Tue, 25 Mar 2014 00:46:35 GMT',
+65 silly registry.get     server: 'Apache',
+65 silly registry.get     via: '1.1 varnish',
+65 silly registry.get     'last-modified': 'Tue, 25 Mar 2014 00:46:35 GMT',
+65 silly registry.get     'cache-control': 'max-age=1',
+65 silly registry.get     etag: '"2LU6UGEPV4858VB12NPUF6R0W"',
+65 silly registry.get     'x-served-by': 'cache-at51-ATL',
+65 silly registry.get     'x-cache': 'MISS',
+65 silly registry.get     'x-cache-hits': '0',
+65 silly registry.get     'x-timer': 'S1395708395.608110189,VS0,VE129',
+65 silly registry.get     vary: 'Accept',
+65 silly registry.get     'content-length': '0',
+65 silly registry.get     'keep-alive': 'timeout=10, max=50',
+65 silly registry.get     connection: 'Keep-Alive' } ]
+66 verbose etag cordova from cache
+67 error Error: not_found document not found: -
+67 error     at RegClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:237:14)
+67 error     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:123:22)
+67 error     at Request.EventEmitter.emit (events.js:98:17)
+67 error     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:893:14)
+67 error     at Request.EventEmitter.emit (events.js:117:20)
+67 error     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:844:12)
+67 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+67 error     at _stream_readable.js:920:16
+67 error     at process._tickCallback (node.js:415:13)
+68 error If you need help, you may report this *entire* log,
+68 error including the npm and node versions, at:
+68 error     <http://github.com/npm/npm/issues>
+69 error System Darwin 13.1.0
+70 error command "node" "/usr/local/bin/npm" "install" "-" "g" "cordova"
+71 error cwd /Users/shainahyman/Documents/development/seeturtles
+72 error node -v v0.10.26
+73 error npm -v 1.4.3
+74 verbose exit [ 1, true ]

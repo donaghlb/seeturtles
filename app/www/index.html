@@ -41,6 +41,22 @@
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
             </div>
 		</div>
+        
+        <!--edit this for edit,view,delete-->
+
+         <div data-role="page" id="nests">
+            <div data-role="header">
+                <h1>Turtle Nests</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <p><a href="#plot" data-role="button" data-icon="plus">Add a new nest</a></p>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
 
         <div data-role="page" id="track">
             <div data-role="header">
@@ -90,7 +106,12 @@
             </div>
 
 			<div data-role="content" class="ui-content">
-			</div>
+                <form>
+                     <label for="inj">Number of Injured Turtles This Year:</label><input type="text" name="inj" id="inj" value="">
+                     <label for="dec">Number of Deceased Turtles This Year:</label><input type="text" data-clear-btn="true" name="dec" id="dec" value"">
+                     <label for="rea">Reasons For Injury or Death:</label><input type="text" name="rea" id="rea" value="">
+                </form>
+            </div>
 
             <div data-role="footer" data-position="fixed">
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
@@ -102,8 +123,15 @@
                 <h1>See Turtles!</h1>
             </div>
 
-			<div data-role="content" class="ui-content">
-			</div>
+            <div data-role="content" class="ui-content">
+                 <label for="date">Date Found:</label><input type="text" name="date" id="date" value="">
+                 <label for="desc">Description of Injury:</label><input type="text" data-clear-btn="true" name="desc" id="desc" value"">
+                 <label for="cause">Cause or Suspected Cause:</label><input type="text" name="cause" id="cause" value="">
+                 <label for="age">Age:</label><input type="text" name="age" id="age" value="">
+                 <label for="species">Species:</label><input type="text" data-clear-btn="true" name="species" id="species" value"">
+                 <label for="gen">Gender:</label><input type="text" name="gen" id="gen" value="">
+                 <label for="tag">Tagged or Untagged:</label><input type="text" name="tag" id="tag" value="">
+            </div>​
 
             <div data-role="footer" data-position="fixed">
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
