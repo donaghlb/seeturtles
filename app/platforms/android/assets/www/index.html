@@ -1,43 +1,361 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.theme-1.4.2.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <title>See Turtles!</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <div data-role="page" id="home">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+	            <p>Save the Sea Turtles! <a href="#track" data-role="button" data-transition="flip">Add a Turtle</a></p>
+	            <p><a href="#nests" data-role="button" data-transition="flip">Nests</a></p>
+	            <p><a href="#conservation" data-role="button" data-transition="flip">Possible Conservation Methods</a></p>
+	            <p><a href="#data" data-role="button" data-transition="flip">Data Analysis</a></p>
+                <p><a href="#species" data-role="button" data-transition="flip">Manage Species</a></p>
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+
+        <div data-role="page" id="nests">
+            <div data-role="header">
+                <h1>Turtle Nests</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <div id="nestlist"></div>
+				<p><a href="#plot" data-role="button" data-icon="plus">Add a new nest</a></p>
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+
+
+        <div data-role="page" id="nest">
+            <div data-role="header">
+                <h1>Nest</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <p>Date of Discovery: <span id="ndis"></span></p>
+                <p>Predicted Delivery: <span id="npre"></span></p>
+                <p>Actual Delivery: <span id="nact"></span></p>
+                <p>Nest Latitude: <span id="nlat"></span></p>
+                <p>Nest Longitude: <span id="nlon"></span></p>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
+
+        <div data-role="page" id="editnest">
+            <div data-role="header">
+                <h1>Edit Nest</h1>
+            </div>
+            <div data-role="content" class="ui-content">
+                <form>
+                    <label for="name">Name:</label><input type="text" name="name" id="name">
+                    <label for="date_discovery">Discovered:</label><input type="date" name="date_discovery" id="disc">
+                    <label for="predicted_delivery">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
+                    <label for="actual_delivery">Actual:</label><input type="date" name="actual_delivery" id="act">
+                    <label for="nest_lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
+                    <label for="nest_lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
+                    <a href="#" id="plot_submit" data-role="button">Submit</a>
+                </form>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="track">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <div id="turtlelist"></div>
+                <p><a href="#turtles" data-role="button" data-icon="plus">Add a new turtle</a></p>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+         <div data-role="page" id="turtle">
+            <div data-role="header">
+                <h1>Turtle: </h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <p>Date of Birth: <span id="tage"></span></p>
+                <p>Gender: <span id="tgender"></span></p>
+                <p>Species: <span id="tspecies_id"></span></p>
+                <p>Siting Latitude: <span id="tbirth_lat"></span></p>
+                <p>Siting Longitude: <span id="tbirth_lon"></span></p>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+         <div data-role="page" id="editturtle">
+            <div data-role="header">
+                <h1>Edit Turtle</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <form>
+                    <label for="id">Tracking Number/Name:</label><input type="text" name="id" id="id">
+                    <label for="dob">Date of Birth:</label><input type="date" name="dob" id="dob">
+                    <label for="gender">Sex:</label><select name="gender" id="gender"><option>M</option><option>F</option></select>
+                    <label for="species_id">Species:</label><select name="species_id" id="species_id"></select>
+                    <label for="birth_lat">Latitude:</label><input type="text" name="birth_lat" id="birth_lat">
+                    <label for="birth_lon">Longitude:</label><input type="text" name="birth_lon" id="birth_lon">
+                    <label for="deceased">Deceased?</label><input type="checkbox" name="deceased" id="deceased">
+                     <a href="#" id="turtles_submit" data-role="button">Submit</a>
+                </form>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+        <div data-role="page" id="turtles">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+				<form>
+                    <label for="id">Tracking Number/Name:</label><input type="text" name="id" id="id">
+                    <label for="dob">Date of Birth:</label><input type="date" name="dob" id="dob">
+                    <label for="gender">Sex:</label><select name="gender" id="gender"><option>M</option><option>F</option></select>
+                    <label for="species_id">Species:</label><select name="species_id" id="species_id"></select>
+		            <label for="birth_lat">Latitude:</label><input type="text" name="birth_lat" id="birth_lat">
+		            <label for="birth_lon">Longitude:</label><input type="text" name="birth_lon" id="birth_lon">
+		            <label for="deceased">Deceased?</label><input type="checkbox" name="deceased" id="deceased">
+                     <a href="#" id="turtles_submit" data-role="button">Submit</a>
+				</form>
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+
+		<div data-role="page" id="plot">
+			<div data-role="header">
+				<h1>See Turtles!</h1>
+			</div>
+
+			<div data-role="content" class="ui-content">
+				<form>
+					<label for="name">Name:</label><input type="text" name="name" id="name">
+                    <label for="date_discovery">Discovered:</label><input type="date" name="date_discovery" id="disc">
+                    <label for="predicted_delivery">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
+                    <label for="actual_delivery">Actual:</label><input type="date" name="actual_delivery" id="act">
+					<label for="nest_lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
+					<label for="nest_lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
+					<a href="#" id="plot_submit" data-role="button">Submit</a>
+				</form>
+			</div>
+
+			<div data-role="footer" data-position="fixed">
+				<p>&copy; 2014 Lauren &amp; Shaina</p>
+			</div>
+		</div>
+
+         <div data-role="page" id="conservation">
+            <div data-role="header">
+                <h1>Conservation</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <form>
+                <p><a href="#international" data-role="button" data-transition="flip">International Laws</a></p>
+                <p><a href="#state" data-role="button" data-transition="flip">State Laws</a></p>
+                <p><a href="#national" data-role="button" data-transition="flip">National Laws</a></p>
+                <p><a href="#education" data-role="button" data-transition="flip">Education</a></p>
+                </form>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+         <div data-role="page" id="international">
+            <div data-role="header">
+                <h1>International Laws</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+         <div data-role="page" id="state">
+            <div data-role="header">
+                <h1>State Laws</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+          <div data-role="page" id="national">
+            <div data-role="header">
+                <h1>National Laws</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+         <div data-role="page" id="education">
+            <div data-role="header">
+                <h1>Education</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="data">
+            <div data-role="header">
+                <h1>See Turtles!</h1>
+            </div>
+
+			<div data-role="content" class="ui-content">
+			</div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+		</div>
+
+        <div data-role="page" id="species">
+            <div data-role="header">
+                <h1>Turtle Species</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <div id="specieslist"></div>
+                <p><a href="#addspecies" data-role="button" data-icon="plus">Add a new species</a></p>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+
+        <div data-role="page" id="addspecies">
+            <div data-role="header">
+                <h1>Add a Species</h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+                <form>
+                    <label for="name">Name:</label><input type="text" name="name" id="name">
+                    <label for="lat">Description:</label><input type="text" name="description" id="description">
+                    <a href="#" id="species_submit" data-role="button">Submit</a>
+                </form>
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+        <div data-role="page" id="specie">
+            <div data-role="header">
+                <h1></h1>
+            </div>
+
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+        <div data-role="page" id="editspecies">
+            <div data-role="header">
+                <h1>Edit </h1>
+            </div>
+            <div data-role="content" class="ui-content">
+            </div>
+
+            <div data-role="footer" data-position="fixed">
+                <p>&copy; 2014 Lauren &amp; Shaina</p>
+            </div>
+        </div>
+
+        <!-- POPUPS! -->
+        <div data-role="dialog" id="nospeciesDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="display:none;max-width:400px;">
+            <div data-role="header" data-theme="a">
+                <h1>Ruh-roh!</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <h3 class="ui-title">There are no species in the database!</p>
+                <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
+                <a href="#addspecies" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-transition="flow">Add a Species!</a>
+            </div>
+        </div>
+
+        <div data-role="dialog" id="areYouSureDialog" data-overlay-theme="b" data-theme="b" data-dismissible="true" style="max-width:400px;">
+            <div role="main" class="ui-content">
+                <h3 class="ui-title">Are you sure?</h3>
+                <p></p>
+                <a href="#" data-rel="back" class="nope" data-theme="a" data-role="button">Cancel</a>
+                <a href="#" data-rel="back" class="sure" data-theme="b" data-role="button"></a>
+            </div>
+        </div>
+
+
+
+        <!--<script type="text/javascript" src="cordova.js"></script>-->
+        <script src="js/jquery-2.1.0.min.js"></script>
+        <script src="js/index.js"></script>
+        <script src="js/jquery.mobile-1.4.2.min.js"></script>
+        <script src="js/jquery.mobile.paramsHandler-1.4.2.js"></script>
     </body>
 </html>

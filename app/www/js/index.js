@@ -1,6 +1,6 @@
 // global variables and functions
 // create a variable to hold database related stuff
-var stdb = {}; stdb.db = null;
+var stdb = {}, areYouSure; stdb.db = null;
 
 // function to open the database
 stdb.open = function() {
@@ -211,7 +211,7 @@ stdb.deleteNest = function( id ) {
 			stdb.onSuccess,
 			stdb.onError
 		);
-		//get rid of any assocociated sitings 
+		//get rid of any assocociated sitings
 		tx.executeSql( 'DELETE FROM sitings WHERE nest_id = ?',
 			[ id ],
 			stdb.onSuccess,
@@ -220,9 +220,40 @@ stdb.deleteNest = function( id ) {
 	});
 };
 
+stdb.deleteSpecies = function( id ) {
+	stdb.db.transaction( function( tx ) {
+		// get rid of any turtles of this species
+		/*
+		//get rid of any associated turtles
+		tx.executeSql( 'DELETE FROM turtles WHERE species_id = ?',
+			[ id ],
+			stdb.onSuccess,
+			stdb.onError
+		);
+		*/
+		//get rid of any associated species
+		tx.executeSql( 'DELETE FROM species WHERE id = ?',
+			[ id ],
+			null,
+			stdb.onError
+		);
+	});
+}
+
+// function to handle "Are you sure?" instances
+areYouSure = function( msg, btxt, sureHandler ) {
+	$( '#areYouSureDialog p'      ).text( msg  );
+	$( '#areYouSureDialog a.sure' ).text( btxt ).on( 'click.sure', function() {
+		sureHandler(); // this is what it does if they click the OK button
+		$( this ).off( "click.sure" );
+	});
+	$.mobile.changePage( '#areYouSureDialog', 'pop', true, true );
+};
+
+
 // initialize the app
 $( document ).on( 'mobileinit', function() {
-	
+
 	// initialize our database
 	stdb.open();
 	stdb.createSchema();
@@ -231,6 +262,7 @@ $( document ).on( 'mobileinit', function() {
 
 // code to run after the page has loaded
 $( document ).ready( function() {
+
 	var displayTurtles, updateSpeciesSelect, displayTurtle, displayTurtleEditor;
 
 	// display a list of turtles
@@ -281,8 +313,8 @@ $( document ).ready( function() {
 	$( '#turtles_submit' ).on( 'click', function( e ) {
 		// don't actually try to follow the link
 		e.preventDefault();
-		
-		// get the data from the fields 
+
+		// get the data from the fields
 		var id   = $( '#turtles #id'         ).val(),
 			dob  = $( '#turtles #dob'        ).val(),
 			gen  = $( '#turtles #gender'     ).val(),
@@ -293,7 +325,7 @@ $( document ).ready( function() {
 
 		// try to add it to the database
 		stdb.addTurtles( id, dob, gen, spec, lat, lon, dec );
-		
+
 		// go back to the list of turtles page
 		$.mobile.changePage( '#track' );
 	});
@@ -310,7 +342,7 @@ $( document ).ready( function() {
 			$( '#nospeciesDialog' ).popup( "open" );
 		}
 	};
-	
+
 	// store the object id in localStorage when people click a link that's got a data-objectid attribute
 	$( 'a' ).on( 'click', function() {
 		console.log( $( this ).prop( 'data-objectid' ) );
@@ -321,7 +353,7 @@ $( document ).ready( function() {
 	$.mobile.paramsHandler.addPage( 'turtle', [ 'id' ], [], function( t ) { stdb.getTurtle( t.id, displayTurtle ); } );
 	$.mobile.paramsHandler.addPage( 'editturtle', [ 'id' ], [], function( t ) {
 		stdb.getSpecies( updateSpeciesSelect );
-		stdb.getTurtle( t.id, displayTurtleEditor ); 
+		stdb.getTurtle( t.id, displayTurtleEditor );
 	} );
 	$.mobile.paramsHandler.init();
 	// handle page transitions
@@ -334,7 +366,7 @@ $( document ).ready( function() {
 
 $( document ).ready( function() {
 	var displayNests;
-	
+
 	displayNests = function( tx, rs ) {
 		var nestlist;
 		if ( rs.rows.length > 0 ) {
@@ -364,7 +396,7 @@ $( document ).ready( function() {
 		$( '#nact'    ).html( rs.rows.item(0).actual_delivery );
 		$( '#nlat'    ).html( rs.rows.item(0).nest_lat );
 		$( '#nlon'    ).html( rs.rows.item(0).nest_lon );
-		
+
 	};
 
 	displayNestEditor = function( tx, rs ) {
@@ -377,12 +409,12 @@ $( document ).ready( function() {
 		$( '#editnest #nest_lon'                 ).val( t.nest_lon  );
 
 	}
-	
+
 	// handle form submissions
 	$( '#plot_submit' ).on( 'click', function( e ) {
 		// don't actually try to follow the link
 		e.preventDefault();
-		
+
 		// get the data from the fields
 		var name      = $(   '#plot #name'                    ).val(),
 			discovery = $(   '#plot #date_discovery'          ).val(),
@@ -390,7 +422,7 @@ $( document ).ready( function() {
 			actual    = $(   '#plot #actual_delivery'         ).val(),
 			lat       = $(   '#plot #nest_lat'                ).val(),
 			lon       = $(   '#plot #nest_lon'                ).val();
-			
+
 		// try to add it to the database
 		stdb.addNest( name, discovery, predicted, actual, lat, lon );
 
@@ -407,7 +439,7 @@ $( document ).ready( function() {
 	// set up parameter passing between pages
 	$.mobile.paramsHandler.addPage( 'nest', [ 'id' ], [], function( t ) { stdb.getNest( t.id, displayNest ); } );
 	$.mobile.paramsHandler.addPage( 'editnest', [ 'id' ], [], function( t ) {
-		stdb.getNest( t.id, displayNestEditor ); 
+		stdb.getNest( t.id, displayNestEditor );
 	} );
 	$.mobile.paramsHandler.init();
 
@@ -416,8 +448,8 @@ $( document ).ready( function() {
 });
 
 $( document ).ready( function() {
-	var displaySpecies;
-	
+	var displaySpecies, deleteButtonClick;
+
 	displaySpecies = function( tx, rs ) {
 		var specieslist;
 		if ( rs.rows.length > 0 ) {
@@ -428,33 +460,58 @@ $( document ).ready( function() {
 				specieslist += '<span style="position:absolute;right:4px;top:-3px;" data-role="controlgroup" data-type="horizontal" data-mini="true">';
 				specieslist += '<a href="#specie?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-eye ui-btn-icon-notext ui-corner-all">View</a>';
 				specieslist += '<a href="#editspecies?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">Edit</a>';
-				specieslist += '<a href="#deletespecies?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
+				specieslist += '<a href="#areYouSureDialog" data-speciesid="' + rs.rows.item(i).id + '" class="delete-species ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
 				specieslist += '</span>';
 				specieslist += '</li>';
 			}
 			specieslist += '</ul>';
 			$( '#species #specieslist' ).html( specieslist ).trigger( 'create' );
+			// handle species deletion
+			$( '.delete-species' ).on( 'click', deleteButtonClick );
 		} else {
 			$( '#species #specieslist' ).html( '<p>No species have been added to the database yet. Click the button below to add one.</p>' );
 		}
 	};
-	
+
 	// handle form submissions
 	$( '#species_submit' ).on( 'click', function( e ) {
 		// don't actually try to follow the link
 		e.preventDefault();
-		
+
 		// get the data from the fields
 		var name         = $( '#addspecies #name' ).val(),
 			description  = $( '#addspecies #description'  ).val();
-			
+
 		// try to add it to the database
 		stdb.addSpecies( name, description );
-		
+
+		// clear the form fields
+		$(':input','#addspecies')
+			.not(':button, :submit, :reset, :hidden')
+			.val('')
+			.removeAttr('checked')
+			.removeAttr('selected');
+
 		// go back to the list of nests page
 		$.mobile.changePage( '#species' );
 	});
-	
+
+	deleteButtonClick = function( e ) {
+		// DON'T try to follow the link
+		e.preventDefault();
+
+		var sid = $( this ).attr( 'data-speciesid' );
+
+		// make sure it's not an accident
+		areYouSure( 'Deleting species is permanent!', 'Delete', function() {
+			// if they say yes
+			// delete the species
+			stdb.deleteSpecies( sid );
+			// get the remaining species and redraw the species list
+			stdb.getSpecies( displaySpecies );
+		});
+	};
+
 	// handle page transitions
 	$( '#species' ).on( 'pagebeforeshow', function( e ) { stdb.getSpecies( displaySpecies ); });
 });
