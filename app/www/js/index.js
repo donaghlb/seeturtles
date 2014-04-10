@@ -37,7 +37,7 @@ stdb.createSchema = function() {
 };
 
 // create functions for adding NEW data to tables
-stdb.addNests = function( name, discovery, predicted, actual, lat, lon ) {
+stdb.addNest = function( name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'INSERT INTO nests ( name, discovery_date, predicted_delivery, actual_delivery, nest_lat, nest_lon ) VALUES ( ?, ?, ?, ?, ?, ? )',
 			[ name, discovery, predicted, actual, lat, lon ],
@@ -65,10 +65,10 @@ stdb.addSpecies = function( name, description ) {
 		);
 	});
 };
-stdb.addTurtles = function( id, dob, gender, species_id, birth_lat, birth_lon, deceased ) {
+stdb.addTurtles = function( id, dob, gen, speciesid, birthlat, birthlon, deceased ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'INSERT INTO turtles ( id, dob, gender, species_id, birth_lat, birth_lon, deceased ) VALUES ( ?, ?, ?, ?, ?, ?, ? )',
-			[ id, dob, gender, species_id, birth_lat, birth_lon, deceased ],
+			[ id, dob, gen, speciesid, birthlat, birthlon, deceased ],
 			stdb.onSuccess,
 			stdb.onError
 		);
@@ -165,10 +165,10 @@ stdb.updateSpecies = function( name, description ) {
 		);
 	});
 };
-stdb.updateTurtles = function( id, dob, gender, sepcies_id, birth_lat, birth_lon, deceased ) {
+stdb.updateTurtles = function( id, dob, gen, speciesid, birthlat, birthlon, deceased ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'UPDATE nests SET name = ?, dob = ?, gender = ?, species_id = ?, birth_lat = ?, birth_lon = ?, deceased = ? WHERE id = ?',
-			[ id, dob, gender, sepcies_id, birth_lat, birth_lon, deceased ],
+			[ id, dob, gen, speciesid, birthlat, birthlon, deceased ],
 			stdb.onSuccess,
 			stdb.onError
 		);
@@ -185,6 +185,7 @@ stdb.updateSitings = function( turtle_id, condition, is_injured, sited_on, lat, 
 };
 
 // create functions for deleting data
+
 stdb.deleteNest = function( id ) {
 	stdb.db.transaction( function( tx ) {
 		// first get rid of the nest
@@ -192,30 +193,19 @@ stdb.deleteNest = function( id ) {
 			[ id ],
 			null,
 			stdb.onError
+		
 		);
-		// next get rid of any associated observations
-		tx.executeSql( 'DELETE FROM observations WHERE nest_id = ?',
+	});
+};
+
+stdb.deleteTurtle = function( id ) {
+	stdb.db.transaction( function( tx ) {
+		// first get rid of the nest
+		tx.executeSql( 'DELETE FROM turtles WHERE id = ?',
 			[ id ],
-			stdb.onSuccess,
+			null,
 			stdb.onError
-		);
-		//get rid of any associated species
-		tx.executeSql( 'DELETE FROM species WHERE nest_id = ?',
-			[ id ],
-			stdb.onSuccess,
-			stdb.onError
-		);
-		//get rid of any associated turtles
-		tx.executeSql( 'DELETE FROM turtles WHERE nest_id = ?',
-			[ id ],
-			stdb.onSuccess,
-			stdb.onError
-		);
-		//get rid of any assocociated sitings
-		tx.executeSql( 'DELETE FROM sitings WHERE nest_id = ?',
-			[ id ],
-			stdb.onSuccess,
-			stdb.onError
+		
 		);
 	});
 };
@@ -261,9 +251,11 @@ $( document ).on( 'mobileinit', function() {
 });
 
 // code to run after the page has loaded
+
+// TURTLE code
 $( document ).ready( function() {
 
-	var displayTurtles, updateSpeciesSelect, displayTurtle, displayTurtleEditor;
+	var displayTurtles, updateSpeciesSelect, displayTurtle, displayTurtleEditor, deleteButtonClick;
 
 	// display a list of turtles
 	displayTurtles = function( tx, rs ) {
@@ -276,55 +268,60 @@ $( document ).ready( function() {
 				turtlelist += '<span style="position:absolute;right:4px;top:-3px;" data-role="controlgroup" data-type="horizontal" data-mini="true">';
 				turtlelist += '<a href="#turtle?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-eye ui-btn-icon-notext ui-corner-all">View</a>';
 				turtlelist += '<a href="#editturtle?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">Edit</a>';
-				turtlelist += '<a href="#deleteturtle?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
+				turtlelist += '<a href="#areYouSureDialog" data-turtlesid="' + rs.rows.item(i).id + '" class="delete-turtles ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
 				turtlelist += '</span>';
 				turtlelist += '</li>';
 			}
 			turtlelist += '</ul>';
 			$( '#track #turtlelist' ).html( turtlelist ).trigger( 'create' );
+			 //handle species deletion
+			$( '.delete-turtles' ).on( 'click', deleteButtonClick );
 		} else {
-			$( '#track #turtlelist' ).html( '<p>No turtles have been added to the database yet. Click the button below to add one.</p>' );
+			$( '#track #turtlelist' ).html( '<p>Add a Turtle!</p>' );
 		}
 	};
 
 	// display an individual turtle
 	displayTurtle = function( tx, rs ) {
+		var d = rs.rows.item(0).deceased ? "yes" : "no" ;
 		$( '#turtle h1'   ).html( 'Turtle: ' + rs.rows.item(0).id );
 		$( '#tage'        ).html( rs.rows.item(0).dob );
 		$( '#tgender'     ).html( rs.rows.item(0).gender );
 		$( '#tspecies_id' ).html( rs.rows.item(0).species_id );
 		$( '#tbirth_lat'  ).html( rs.rows.item(0).birth_lat );
 		$( '#tbirth_lon'  ).html( rs.rows.item(0).birth_lon );
+		$( '#tdeceased'   ).html( d );
 
 	};
 
 	displayTurtleEditor = function( tx, rs ) {
 		var t = rs.rows.item(0);
-		$( '#editturtle #id'         ).val( t.id );
-		$( '#editturtle #dob'        ).val( t.dob );
-		$( '#editturtle #gender'     ).val( t.gender );
-		$( '#editturtle #species_id' ).val( t.species_id );
-		$( '#editturtle #birth_lat'  ).val( t.birth_lat );
-		$( '#editturtle #birth_lon'  ).val( t.birth_lon );
-		$( '#editturtle #deceased'   ).prop( "checked", t.deceased);
+		$( '#editturtle #tid'         ).val( t.id );
+		$( '#editturtle #tdob'        ).val( t.dob );
+		$( '#editturtle #tgender'     ).val( t.gender );
+		$( '#editturtle #tspecies_id' ).val( t.species_id );
+		$( '#editturtle #tbirth_lat'  ).val( t.birth_lat );
+		$( '#editturtle #tbirth_lon'  ).val( t.birth_lon );
+		$( '#editturtle #tdeceased'   ).prop( "checked", t.deceased);
 
-	}
-// handle form submissions
+	};
+
+	// handle form submissions
 	$( '#turtles_submit' ).on( 'click', function( e ) {
 		// don't actually try to follow the link
 		e.preventDefault();
 
 		// get the data from the fields
-		var id   = $( '#turtles #id'         ).val(),
-			dob  = $( '#turtles #dob'        ).val(),
-			gen  = $( '#turtles #gender'     ).val(),
-			spec = $( '#turtles #species_id' ).val(),
-			lat  = $( '#turtles #birth_lat'  ).val(),
-			lon  = $( '#turtles #birth_lon'  ).val(),
-			dec  = $( '#turtles #deceased'   ).prop( 'checked' ) ? 1 : 0;
+		var id         = $( '#turtles #id'         ).val(),
+			dob        = $( '#turtles #dob'        ).val(),
+			gen        = $( '#turtles #gender'     ).val(),
+			speciesid  = $( '#turtles #species_id' ).val(),
+			birthlat   = $( '#turtles #birth_lat'  ).val(),
+			birthlon   = $( '#turtles #birth_lon'  ).val(),
+			deceased   = $( '#turtles #deceased'   ).prop( 'checked' ) ? 1 : 0;
 
 		// try to add it to the database
-		stdb.addTurtles( id, dob, gen, spec, lat, lon, dec );
+		stdb.addTurtles( id, dob, gen, speciesid, birthlat, birthlon, deceased );
 
 		// go back to the list of turtles page
 		$.mobile.changePage( '#track' );
@@ -343,11 +340,21 @@ $( document ).ready( function() {
 		}
 	};
 
-	// store the object id in localStorage when people click a link that's got a data-objectid attribute
-	$( 'a' ).on( 'click', function() {
-		console.log( $( this ).prop( 'data-objectid' ) );
-		localStorage.objectid = $( this ).prop( 'data-objectid' );
-	});
+	deleteButtonClick = function( e ) {
+		// DON'T try to follow the link
+		e.preventDefault();
+
+		var sid = $( this ).attr( 'data-turtlesid' );
+
+		// make sure it's not an accident
+		areYouSure( 'Deleting a Turtle is permanent!', 'Delete', function() {
+			// if they say yes
+			// delete the nest
+			stdb.deleteTurtle( sid );
+			// get the remaining species and redraw the species list
+			stdb.getTurtles( displayTurtles );
+		});
+	};
 
 	// set up parameter passing between pages
 	$.mobile.paramsHandler.addPage( 'turtle', [ 'id' ], [], function( t ) { stdb.getTurtle( t.id, displayTurtle ); } );
@@ -356,16 +363,16 @@ $( document ).ready( function() {
 		stdb.getTurtle( t.id, displayTurtleEditor );
 	} );
 	$.mobile.paramsHandler.init();
+
 	// handle page transitions
 	$( '#track'   ).on( 'pagebeforeshow', function( e ) { stdb.getTurtles( displayTurtles      ); } );
 	$( '#turtles' ).on( 'pagebeforeshow', function( e ) { stdb.getSpecies( updateSpeciesSelect ); } );
+
 });
 
-	//possible deletion
-
-
+// NEST code
 $( document ).ready( function() {
-	var displayNests;
+	var displayNests, displayNest, displayNestEditor, deleteButtonClick;
 
 	displayNests = function( tx, rs ) {
 		var nestlist;
@@ -377,14 +384,16 @@ $( document ).ready( function() {
 				nestlist += '<span style="position:absolute;right:4px;top:-3px;" data-role="controlgroup" data-type="horizontal" data-mini="true">';
 				nestlist += '<a href="#nest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-eye ui-btn-icon-notext ui-corner-all">View</a>';
 				nestlist += '<a href="#editnest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-edit ui-btn-icon-notext ui-corner-all">Edit</a>';
-				nestlist += '<a href="#deletenest?id=' + rs.rows.item(i).id + '" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
+				nestlist += '<a href="#areYouSureDialog" data-nestsid="' + rs.rows.item(i).id + '" class="delete-nests ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">Delete</a>';
 				nestlist += '</span>';
 				nestlist += '</li>';
 			}
 			nestlist += '</ul>';
 			$( '#nests #nestlist' ).html( nestlist ).trigger( 'create' );
+			 //handle species deletion
+			$( '.delete-nests' ).on( 'click', deleteButtonClick );
 		} else {
-			$( '#nests #nestlist' ).html( '<p>No nests have been added to the database yet. Click the button below to add one.</p>' );
+			$( '#nests #nestlist' ).html( '<p>Add a nest already, you fool!</p>' );
 		}
 	};
 
@@ -408,13 +417,12 @@ $( document ).ready( function() {
 		$( '#editnest #nest_lat'                 ).val( t.nest_lat  );
 		$( '#editnest #nest_lon'                 ).val( t.nest_lon  );
 
-	}
+	};
 
 	// handle form submissions
 	$( '#plot_submit' ).on( 'click', function( e ) {
 		// don't actually try to follow the link
 		e.preventDefault();
-
 		// get the data from the fields
 		var name      = $(   '#plot #name'                    ).val(),
 			discovery = $(   '#plot #date_discovery'          ).val(),
@@ -430,12 +438,6 @@ $( document ).ready( function() {
 		$.mobile.changePage( '#nests' );
 	});
 
-	// store the object id in localStorage when people click a link that's got a data-objectid attribute
-	$( 'a' ).on( 'click', function() {
-		console.log( $( this ).prop( 'data-objectid' ) );
-		localStorage.objectnid = $( this ).prop( 'data-objectid' );
-	});
-
 	// set up parameter passing between pages
 	$.mobile.paramsHandler.addPage( 'nest', [ 'id' ], [], function( t ) { stdb.getNest( t.id, displayNest ); } );
 	$.mobile.paramsHandler.addPage( 'editnest', [ 'id' ], [], function( t ) {
@@ -443,10 +445,28 @@ $( document ).ready( function() {
 	} );
 	$.mobile.paramsHandler.init();
 
+	deleteButtonClick = function( e ) {
+		// DON'T try to follow the link
+		e.preventDefault();
+
+		var sid = $( this ).attr( 'data-nestsid' );
+		console.log( sid );
+
+		// make sure it's not an accident
+		areYouSure( 'Deleting a Nest is permanent!', 'Delete', function() {
+			// if they say yes
+			// delete the nest
+			stdb.deleteNest( sid );
+			// get the remaining species and redraw the species list
+			stdb.getNests( displayNests );
+		});
+	};
+
 	// handle page transitions
 	$( '#nests' ).on( 'pagebeforeshow', function( e ) { stdb.getNests( displayNests ); });
 });
 
+// SPECIES code
 $( document ).ready( function() {
 	var displaySpecies, deleteButtonClick;
 
