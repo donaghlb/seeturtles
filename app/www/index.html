@@ -16,7 +16,7 @@
             </div>
 
 			<div data-role="content" class="ui-content">
-	            <p>Save the Sea Turtles! <a href="#track" data-role="button" data-transition="flip">Report a Siting</a></p>
+	            <p>Save the Sea Turtles! <a href="#track" data-role="button" data-transition="flip">Add a Turtle</a></p>
 	            <p><a href="#nests" data-role="button" data-transition="flip">Nests</a></p>
 	            <p><a href="#conservation" data-role="button" data-transition="flip">Possible Conservation Methods</a></p>
 	            <p><a href="#data" data-role="button" data-transition="flip">Data Analysis</a></p>
@@ -50,6 +50,11 @@
             </div>
 
             <div data-role="content" class="ui-content">
+                <p>Date of Discovery: <span id="ndis"></span></p>
+                <p>Predicted Delivery: <span id="npre"></span></p>
+                <p>Actual Delivery: <span id="nact"></span></p>
+                <p>Nest Latitude: <span id="nlat"></span></p>
+                <p>Nest Longitude: <span id="nlon"></span></p>
             </div>
 
             <div data-role="footer" data-position="fixed">
@@ -64,11 +69,11 @@
             <div data-role="content" class="ui-content">
                 <form>
                     <label for="name">Name:</label><input type="text" name="name" id="name">
-                    <label for="lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
-                    <label for="lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
-                    <label for="disc">Discovered:</label><input type="date" name="date_discovery" id="disc">
-                    <label for="pred">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
-                    <label for="act">Actual:</label><input type="date" name="actual_delivery" id="act">
+                    <label for="date_discovery">Discovered:</label><input type="date" name="date_discovery" id="disc">
+                    <label for="predicted_delivery">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
+                    <label for="actual_delivery">Actual:</label><input type="date" name="actual_delivery" id="act">
+                    <label for="nest_lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
+                    <label for="nest_lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
                     <a href="#" id="plot_submit" data-role="button">Submit</a>
                 </form>
             </div>
@@ -100,7 +105,11 @@
             </div>
 
             <div data-role="content" class="ui-content">
-                <p>Age: <span id="tage"></span></p>
+                <p>Date of Birth: <span id="tage"></span></p>
+                <p>Gender: <span id="tgender"></span></p>
+                <p>Species: <span id="tspecies_id"></span></p>
+                <p>Siting Latitude: <span id="tbirth_lat"></span></p>
+                <p>Siting Longitude: <span id="tbirth_lon"></span></p>
             </div>
             
             <div data-role="footer" data-position="fixed">
@@ -128,7 +137,7 @@
             
             <div data-role="footer" data-position="fixed">
                 <p>&copy; 2014 Lauren &amp; Shaina</p>
-            </div>
+            </div> 
         </div>
 
         <div data-role="page" id="turtles">
@@ -162,11 +171,11 @@
 			<div data-role="content" class="ui-content">
 				<form>
 					<label for="name">Name:</label><input type="text" name="name" id="name">
-					<label for="lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
-					<label for="lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
-					<label for="disc">Discovered:</label><input type="date" name="date_discovery" id="disc">
-					<label for="pred">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
-					<label for="act">Actual:</label><input type="date" name="actual_delivery" id="act">
+                    <label for="date_discovery">Discovered:</label><input type="date" name="date_discovery" id="disc">
+                    <label for="predicted_delivery">Predicted:</label><input type="date" name="predicted_delivery" id="pred">
+                    <label for="actual_delivery">Actual:</label><input type="date" name="actual_delivery" id="act">
+					<label for="nest_lat">Latitude:</label><input type="text" name="nest_lat" id="lat">
+					<label for="nest_lon">Longitude:</label><input type="text" name="nest_lon" id="lon">
 					<a href="#" id="plot_submit" data-role="button">Submit</a>
 				</form>
 			</div>

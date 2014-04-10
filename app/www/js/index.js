@@ -37,7 +37,7 @@ stdb.createSchema = function() {
 };
 
 // create functions for adding NEW data to tables
-stdb.addNest = function( name, discovery, predicted, actual, lat, lon ) {
+stdb.addNests = function( name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'INSERT INTO nests ( name, discovery_date, predicted_delivery, actual_delivery, nest_lat, nest_lon ) VALUES ( ?, ?, ?, ?, ?, ? )',
 			[ name, discovery, predicted, actual, lat, lon ],
@@ -47,7 +47,7 @@ stdb.addNest = function( name, discovery, predicted, actual, lat, lon ) {
 	});
 };
 
-stdb.addObservation = function( nest_id, osbserved, temp, cond ) {
+stdb.addObservations = function( nest_id, osbserved, temp, cond ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'INSERT INTO observations ( nest_id, observed_on, temperature, condition ) VALUES ( ?, ?, ?, ? )',
 			[ nest_id, osbserved, temp, cond ],
@@ -138,10 +138,10 @@ stdb.getSiting = function( id, successHandler ) {
 
 
 // create functions for updating data
-stdb.updateNest = function( id,  name, discovery, predicted, actual, lat, lon ) {
+stdb.updateNests = function( name, discovery, predicted, actual, lat, lon ) {
 	stdb.db.transaction( function( tx ) {
 		tx.executeSql( 'UPDATE nests SET name = ?, discovery_date = ?, predicted_delivery = ?, actual_delivery = ?, nest_lat = ?, nest_lon = ? WHERE id = ?',
-			[ name, discovery, predicted, actual, lat, lon, id ],
+			[ name, discovery, predicted, actual, lat, lon ],
 			stdb.onSuccess,
 			stdb.onError
 		);
@@ -257,8 +257,13 @@ $( document ).ready( function() {
 
 	// display an individual turtle
 	displayTurtle = function( tx, rs ) {
-		$( '#turtle h1' ).html( 'Turtle: ' + rs.rows.item(0).id );
-		$( '#tage' ).html( rs.rows.item(0).dob );
+		$( '#turtle h1'   ).html( 'Turtle: ' + rs.rows.item(0).id );
+		$( '#tage'        ).html( rs.rows.item(0).dob );
+		$( '#tgender'     ).html( rs.rows.item(0).gender );
+		$( '#tspecies_id' ).html( rs.rows.item(0).species_id );
+		$( '#tbirth_lat'  ).html( rs.rows.item(0).birth_lat );
+		$( '#tbirth_lon'  ).html( rs.rows.item(0).birth_lon );
+
 	};
 
 	displayTurtleEditor = function( tx, rs ) {
@@ -353,18 +358,23 @@ $( document ).ready( function() {
 
 		// display an individual turtle
 	displayNest = function( tx, rs ) {
-		$( '#nest h1' ).html( 'Nest: ' + rs.rows.item(0).id );
-		$( '#nlat' ).html( rs.rows.item(0).lat );
+		$( '#nest h1' ).html( 'Nest: ' + rs.rows.item(0).name );
+		$( '#ndis'    ).html( rs.rows.item(0).date_discovery );
+		$( '#npre'    ).html( rs.rows.item(0).predicted_delivery );
+		$( '#nact'    ).html( rs.rows.item(0).actual_delivery );
+		$( '#nlat'    ).html( rs.rows.item(0).nest_lat );
+		$( '#nlon'    ).html( rs.rows.item(0).nest_lon );
+		
 	};
 
 	displayNestEditor = function( tx, rs ) {
 		var t = rs.rows.item(0);
 		$( '#editnest #name'                     ).val( t.name );
-		$( '#editnest #nest_lat'                 ).val( t.nest_lat  );
-		$( '#editnest #nest_lon'                 ).val( t.nest_lon  );
 		$( '#editnest #date_discovery'           ).val( t.date_discovery );
 		$( '#editnest #predicted_delivery'       ).val( t.predicted_delivery );
 		$( '#editnest #actual_delivery'          ).val( t.actual_delivery  );
+		$( '#editnest #nest_lat'                 ).val( t.nest_lat  );
+		$( '#editnest #nest_lon'                 ).val( t.nest_lon  );
 
 	}
 	
@@ -374,16 +384,16 @@ $( document ).ready( function() {
 		e.preventDefault();
 		
 		// get the data from the fields
-		var name = $( '#plot #name' ).val(),
-			lat  = $( '#plot #lat'  ).val(),
-			lon  = $( '#plot #lon'  ).val(),
-			disc = $( '#plot #disc' ).val(),
-			pred = $( '#plot #pred' ).val(),
-			act  = $( '#plot #act'  ).val();
+		var name      = $(   '#plot #name'                    ).val(),
+			discovery = $(   '#plot #date_discovery'          ).val(),
+			predicted = $(   '#plot #predicted_delivery'      ).val(),
+			actual    = $(   '#plot #actual_delivery'         ).val(),
+			lat       = $(   '#plot #nest_lat'                ).val(),
+			lon       = $(   '#plot #nest_lon'                ).val();
 			
 		// try to add it to the database
-		stdb.addNest( name, lat, lon, disc, pred, act );
-		
+		stdb.addNest( name, discovery, predicted, actual, lat, lon );
+
 		// go back to the list of nests page
 		$.mobile.changePage( '#nests' );
 	});
@@ -391,13 +401,13 @@ $( document ).ready( function() {
 	// store the object id in localStorage when people click a link that's got a data-objectid attribute
 	$( 'a' ).on( 'click', function() {
 		console.log( $( this ).prop( 'data-objectid' ) );
-		localStorage.objectid = $( this ).prop( 'data-objectid' );
+		localStorage.objectnid = $( this ).prop( 'data-objectid' );
 	});
 
 	// set up parameter passing between pages
-	$.mobile.paramsHandler.addPage( 'nest', [ 'name' ], [], function( t ) { stdb.getNest( t.name, displayNest ); } );
-	$.mobile.paramsHandler.addPage( 'editnest', [ 'name' ], [], function( t ) {
-		stdb.getTurtle( t.name, displayNestEditor ); 
+	$.mobile.paramsHandler.addPage( 'nest', [ 'id' ], [], function( t ) { stdb.getNest( t.id, displayNest ); } );
+	$.mobile.paramsHandler.addPage( 'editnest', [ 'id' ], [], function( t ) {
+		stdb.getNest( t.id, displayNestEditor ); 
 	} );
 	$.mobile.paramsHandler.init();
 
